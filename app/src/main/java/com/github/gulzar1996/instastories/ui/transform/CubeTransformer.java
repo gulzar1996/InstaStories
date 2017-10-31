@@ -9,6 +9,10 @@ import android.view.View;
 
 public class CubeTransformer implements ViewPager.PageTransformer{
 
+
+    public CubeTransformer() {
+    }
+
     @Override
     public void transformPage(View page, float position) {
         onPreTransform(page, position);
@@ -34,6 +38,6 @@ public class CubeTransformer implements ViewPager.PageTransformer{
     private void onTransform(View page, float position) {
         page.setPivotX(position < 0f ? page.getWidth() : 0f);
         page.setPivotY(page.getHeight() * 0.5f);
-        page.setRotationY(90f * position);
+        page.setRotationY(27.5f * position);
     }
 }
