@@ -25,6 +25,7 @@ dependencies {
     implementation "com.google.android.exoplayer:exoplayer:r2.5.1"
     compile 'im.ene.toro3:toro:3.1.1'
     compile 'com.github.shts:StoriesProgressView:2.0.0'
+    compile 'com.github.bumptech.glide:glide:4.3.0'
     implementation 'com.android.support:appcompat-v7:26.1.0'
     compile 'com.android.support:recyclerview-v7:26.1.0'
 
