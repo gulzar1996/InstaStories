@@ -12,7 +12,7 @@
         android:scaleType="centerCrop"
         />
     <im.ene.toro.widget.Container
-        android:id="@+id/my_fancy_videos"
+        android:id="@+id/story_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         />
@@ -36,7 +36,7 @@
     </LinearLayout>
 
     <jp.shts.android.storiesprogressview.StoriesProgressView
-        android:id="@+id/stories"
+        android:id="@+id/stories_progressview"
         android:paddingLeft="8dp"
         android:paddingRight="8dp"
         android:layout_width="match_parent"

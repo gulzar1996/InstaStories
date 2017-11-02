@@ -1,12 +1,16 @@
 package com.github.gulzar1996.instastories.ui.adapter;
 
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.github.gulzar1996.instastories.R;
 import com.github.gulzar1996.instastories.data.model.StoryList;
+import com.github.gulzar1996.instastories.ui.StatusActivty;
 import com.github.gulzar1996.instastories.ui.viewholder.ImageViewHolder;
 import com.github.gulzar1996.instastories.ui.viewholder.VideoViewHolder;
 
@@ -46,19 +50,22 @@ public class StoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         switch (holder.getItemViewType()) {
             case IMAGE_STORY:
-                configureImageViewHolder(holder, position);
+                configureImageViewHolder((ImageViewHolder) holder, position);
                 break;
             case VIDEO_STORY:
-                configureVideoViewHolder(holder, position);
+                configureVideoViewHolder((VideoViewHolder) holder, position);
                 break;
         }
     }
 
-    private void configureVideoViewHolder(RecyclerView.ViewHolder holder, int position) {
-
+    private void configureVideoViewHolder(VideoViewHolder holder, int position) {
+        holder.setVideoStatus(Uri.parse(mStories.get(position).src));
     }
 
-    private void configureImageViewHolder(RecyclerView.ViewHolder holder, int position) {
+    private void configureImageViewHolder(ImageViewHolder holder, int position) {
+        Glide.with(holder.getImageStatus().getContext())
+                .load(mStories.get(position).src)
+                .into(holder.getImageStatus());
     }
 
     @Override

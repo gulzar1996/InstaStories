@@ -81,7 +81,7 @@ public class VideoViewHolder extends RecyclerView.ViewHolder implements ToroPlay
         return "ExoPlayer{" + hashCode() + " " + getAdapterPosition() + "}";
     }
 
-    void setVideoStatus(Uri mediaUri) {
+    public void setVideoStatus(Uri mediaUri) {
         this.mediaUri = mediaUri;
     }
 }

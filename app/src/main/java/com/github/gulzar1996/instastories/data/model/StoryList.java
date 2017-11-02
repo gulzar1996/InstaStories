@@ -14,4 +14,10 @@ public class StoryList {
     public String link;
     public String linkText;
     public long timestamp;
+    //Test Constructor
+
+    public StoryList(boolean isVideo, String src) {
+        this.isVideo = isVideo;
+        this.src = src;
+    }
 }
