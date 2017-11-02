@@ -37,24 +37,9 @@ public class StatusActivty extends AppCompatActivity  {
         mViewPager=findViewById(R.id.container);
         mViewPager.setAdapter(mAdapter);
         mViewPager.setPageTransformer(false,new CubeTransformer());
+        //Has to be dynamic
         mViewPager.setCurrentItem(0);
-        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-                Log.d("ViewPager","viewpager :"+position);
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
-        });
-
+        mViewPager.setOffscreenPageLimit(1);
     }
 
 

@@ -29,14 +29,13 @@ import jp.shts.android.storiesprogressview.StoriesProgressView;
  * Created by gulza on 11/1/2017.
  */
 
-public class StoryFragment extends Fragment implements StoriesProgressView.StoriesListener {
+public class StoryFragment extends BaseFragment implements StoriesProgressView.StoriesListener {
 
     private Container storyContainer;
     private LinearLayoutManager layoutManager;
     private StoryAdapter mStoryAdapter;
     private StoriesProgressView storiesProgressView;
-    private boolean isStoryRunning=false;
-    private boolean isStoryRunningFirstTime=false;
+
     View reverse, skip;
     ViewPager mviewPager;
     int viewPagerPosition;
@@ -66,11 +65,18 @@ public class StoryFragment extends Fragment implements StoriesProgressView.Stori
 
     @Override public void onViewCreated(View view, @Nullable Bundle bundle) {
         super.onViewCreated(view, bundle);
-        layoutManager = new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,false);
-        layoutManager.setItemPrefetchEnabled(true);
-        layoutManager.setInitialPrefetchItemCount(4);
+        layoutManager = new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,false) {
+            @Override
+            public boolean canScrollVertically() {
+                return false;
+            }
+
+            @Override
+            public boolean canScrollHorizontally() {
+                return false;
+            }
+        };
         storyContainer.setLayoutManager(layoutManager);
-        storyContainer.setOnTouchListener((v, event) -> true);
         // bind reverse view
         reverse.setOnClickListener(v -> storiesProgressView.reverse());
         reverse.setOnTouchListener(onTouchListener);
@@ -100,43 +106,6 @@ public class StoryFragment extends Fragment implements StoriesProgressView.Stori
         //If the viewpager viewPagerPosition matches
         int currentPosition = getArguments().getInt(EXTRA_POSITION);
         mviewPager = getActivity().findViewById(R.id.container);
-//        mviewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-//            @Override
-//            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-//                Log.d("ViewPagerState","viewPagerPosition :"+position+" positionOffset :"+positionOffset);
-//                /*
-//                Error on fast scroll
-//                 */
-//                if ((currentPosition-1)==position && positionOffset==0.0){
-//                    if(isStoryRunningFirstTime){
-//                        if (!isStoryRunning)
-//                    storiesProgressView.resume();
-//                        isStoryRunning=true;
-//                    }
-//                    else{
-//                    storiesProgressView.destroy();
-//                    storiesProgressView.startStories();
-//                    isStoryRunningFirstTime=true;
-//                    isStoryRunning=true;  }
-//                }
-//                else{
-//                    if(isStoryRunning && (currentPosition-1)==position){
-//                    storiesProgressView.pause();
-//                    isStoryRunning=false;}
-//                }
-//
-//            }
-//
-//            @Override
-//            public void onPageSelected(int position) {
-//
-//            }
-//
-//            @Override
-//            public void onPageScrollStateChanged(int state) {
-//                Log.d("ViewpagerState","State "+state);
-//            }
-//        });
 
 
 
@@ -145,7 +114,7 @@ public class StoryFragment extends Fragment implements StoriesProgressView.Stori
 
     long pressTime = 0L;
     long limit = 500L;
-
+    //Pause reverse
     private View.OnTouchListener onTouchListener = new View.OnTouchListener() {
         @Override
         public boolean onTouch(View v, MotionEvent event) {
@@ -169,6 +138,7 @@ public class StoryFragment extends Fragment implements StoriesProgressView.Stori
         List<StoryList> mStories=new ArrayList<>();
         mStories.add(new StoryList(false,"https://pbs.twimg.com/media/C8mtrEMXcAA9KKM.jpg:large"));
         mStories.add(new StoryList(true,"https://scontent-gru2-2.cdninstagram.com/t50.2886-16/14965218_193969377722724_482497862983221248_n.mp4"));
+        mStories.add(new StoryList(false,"https://images.unsplash.com/photo-1500027014421-46ccc843776a?dpr=1&auto=format&fit=crop&w=1000&q=80&cs=tinysrgb&ixid=dW5zcGxhc2guY29tOzs7Ozs%3D"));
         mStories.add(new StoryList(true,"https://instagram.frao1-1.fna.fbcdn.net/t50.2886-16/17886251_1128605603951544_572796556789415936_n.mp4"));
         mStoryAdapter = new StoryAdapter(mStories);
         storyContainer.setAdapter(mStoryAdapter);
@@ -180,12 +150,9 @@ public class StoryFragment extends Fragment implements StoriesProgressView.Stori
         layoutManager = null;
         mStoryAdapter = null;
         selector = null;
+        mviewPager.addOnPageChangeListener(null);
+        storiesProgressView.destroy();
         super.onDestroyView();
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
     }
 
     @Override public void setUserVisibleHint(boolean isVisibleToUser) {
